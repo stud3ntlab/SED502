@@ -1,18 +1,101 @@
 <!doctype html>
-<!-- lang="de": Screenreader lesen die Seite auf Deutsch vor -->
 <html lang="de">
   <head>
-    <!-- Zeichensatz, damit Umlaute richtig angezeigt werden -->
     <meta charset="UTF-8" />
-    <!-- Seite passt sich der Bildschirmbreite an (wichtig fürs Handy) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Titel im Browser-Tab -->
     <title>Freigabe-Prüfstand</title>
   </head>
   <body>
-    <!-- Das Grundgerüst der Seite kommt im nächsten Schritt -->
+    <header>
+      <h1>Freigabe-Prüfstand</h1>
+      <p>
+        Wähle ein Ziel und Einträge aus der Wissensbasis. Die Seite zeigt sofort, ob der Auftrag so
+        an das KI-Modell geschickt werden darf.
+      </p>
+      <!-- aria-label gibt der Navigation einen Namen, den Screenreader vorlesen -->
+      <nav aria-label="Hauptnavigation">
+        <ul>
+          <li><a href="#auftrag">Auftrag</a></li>
+          <li><a href="#ergebnis">Ergebnis</a></li>
+          <li><a href="#regeln">Regeln</a></li>
+        </ul>
+      </nav>
+    </header>
 
-    <!-- Lädt unser TypeScript. type="module" erlaubt import/export. Vite übersetzt die Datei. -->
+    <main>
+      <!-- aria-labelledby: Die Überschrift wird zum Namen des Bereichs (auch bei den anderen Bereichen) -->
+      <section id="auftrag" aria-labelledby="auftrag-titel">
+        <h2 id="auftrag-titel">Auftrag zusammenstellen</h2>
+        <!-- Kein Absenden-Knopf: Die Seite rechnet bei jeder Änderung neu -->
+        <form id="auftrag-form">
+          <fieldset>
+            <legend>Ziel</legend>
+
+
+
+
+
+            <!-- Das label umschließt das Feld, so gehört der Text dazu und ein Klick darauf wählt es aus -->
+            <label>
+              <input type="radio" name="ziel" value="lokal" />
+              Lokales Modell (läuft im eigenen Netz)
+            </label>
+            <!-- extern ist vorausgewählt, weil es der strengere Fall ist -->
+            <label>
+              <input type="radio" name="ziel" value="extern" checked />
+              Externes Modell (Cloud-Anbieter)
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Einträge aus der Wissensbasis</legend>
+            <!-- wird von main.ts aus daten.ts gefüllt, damit die Daten nur an einer Stelle stehen -->
+            <ul id="eintrag-liste"></ul>
+          </fieldset>
+        </form>
+      </section>
+
+      <!-- aria-live: Screenreader lesen Änderungen am Ergebnis vor -->
+      <section id="ergebnis" aria-labelledby="ergebnis-titel" aria-live="polite">
+        <h2 id="ergebnis-titel">Ergebnis</h2>
+        <p id="entscheidung">Kein Eintrag ausgewählt.</p>
+        <p>Höchste Stufe: <strong id="hoechste-stufe">–</strong></p>
+        <h3>Blockierende Einträge</h3>
+        <ul id="blockierende-liste">
+          <li>keine</li>
+        </ul>
+      </section>
+
+      <!-- aside: Zusatzinfo, die zum Inhalt gehört, aber nicht der Kern ist -->
+      <aside id="regeln" aria-labelledby="regeln-titel">
+        <h2 id="regeln-titel">Regeln</h2>
+        <!-- dl = Begriffsliste: dt ist der Begriff, dd die Erklärung -->
+        <dl>
+          <dt>öffentlich</dt>
+          <dd>Darf jeder sehen, z. B. die Beschreibung einer bekannten Schwachstelle.</dd>
+          <dt>intern</dt>
+          <dd>Nur für das eigene Team, z. B. unsere Vorgehensweise.</dd>
+          <dt>sensitiv</dt>
+          <dd>Daten zum Kunden, z. B. Zieladressen oder Scan-Ergebnisse.</dd>
+        </dl>
+        <p>
+          <strong>Freigabe:</strong> Bei jedem Eintrag ist festgelegt, ob er extern freigegeben ist. Das
+          wurde vorher geprüft und lässt sich hier nicht ändern.
+        </p>
+        <p>
+          <strong>Regel:</strong> Ein lokales Modell darf alles bekommen. Ein externes Modell nur, wenn
+          alle ausgewählten Einträge extern freigegeben sind. Die Stufe zeigt, wie schützenswert ein
+          Eintrag ist. Für die Entscheidung zählt nur die Freigabe.
+        </p>
+        <p><strong>Im Zweifel gesperrt:</strong> Ohne Auswahl wird nichts freigegeben.</p>
+      </aside>
+    </main>
+
+    <footer>
+      <p>Erfundene Beispieldaten, nur zur Demo. Das ist keine echte Absicherung.</p>
+      <p>ESA 1 · SED502 Frontend Development · WS 2026/27</p>
+    </footer>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

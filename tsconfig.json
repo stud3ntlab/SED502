@@ -1,0 +1,44 @@
+// Einstellungen für den TypeScript-Compiler (tsc).
+// tsc prüft hier nur die Typen. Das Übersetzen nach JavaScript macht Vite.
+// In dieser Datei sind Kommentare erlaubt, in package.json nicht.
+{
+  "compilerOptions": {
+    // Strenge Typprüfung, z. B. Pflicht zur Null-Prüfung und kein verstecktes "any"
+    "strict": true,
+
+    // In welche JavaScript-Version übersetzt wird (ES2023 = moderner Browser)
+    "target": "es2023",
+    // Moderne Module mit import/export
+    "module": "esnext",
+    // Welche Typen TypeScript kennt: JavaScript-Grundfunktionen und das DOM (document, HTMLElement ...)
+    "lib": ["ES2023", "DOM"],
+    // Typen von Vite, z. B. damit "import './style.css'" erlaubt ist
+    "types": ["vite/client"],
+    // Typdateien aus node_modules nicht prüfen (schneller, Fehler dort sind nicht unsere)
+    "skipLibCheck": true,
+
+    /* Zusammenarbeit mit Vite (Bundler) */
+    // Imports so auflösen, wie es Vite macht
+    "moduleResolution": "bundler",
+    // Imports mit Endung erlaubt, z. B. import ... from './daten.ts'
+    "allowImportingTsExtensions": true,
+    // Reine Typ-Imports müssen mit "import type" geschrieben werden
+    "verbatimModuleSyntax": true,
+    // Jede Datei gilt als eigenes Modul (Variablen sind nicht global)
+    "moduleDetection": "force",
+    // tsc erzeugt keine Dateien, nur Prüfung. Den Build macht "vite build".
+    "noEmit": true,
+
+    /* Zusätzliche Prüfungen */
+    // Fehler bei Variablen, die nie benutzt werden
+    "noUnusedLocals": true,
+    // Fehler bei Funktionsparametern, die nie benutzt werden
+    "noUnusedParameters": true,
+    // Nur TypeScript-Syntax, die beim Übersetzen einfach wegfällt (z. B. kein "enum")
+    "erasableSyntaxOnly": true,
+    // Fehler, wenn bei "switch" ein "break" vergessen wird
+    "noFallthroughCasesInSwitch": true
+  },
+  // Geprüft wird alles im Ordner src
+  "include": ["src"]
+}

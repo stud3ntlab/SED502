@@ -1,0 +1,8 @@
+/* Grundlegende Styles. Farben, Fokus und Kontrast kommen in einem späteren Schritt. */
+
+body {
+  /* Schrift des Betriebssystems, gut lesbar und ohne Download */
+  font-family: system-ui, sans-serif;
+  /* Etwas mehr Zeilenabstand für bessere Lesbarkeit */
+  line-height: 1.5;
+}

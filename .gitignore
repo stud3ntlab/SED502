@@ -1,0 +1,23 @@
+# Diese Datei sagt Git, welche Dateien NICHT ins Repo hochgeladen werden.
+# Ins öffentliche Repo kommt nur das Nötigste: Code, README, lighthouse.png, reflexion.pdf.
+
+# Kursunterlagen, Exposé und Notizen bleiben lokal
+SED502/
+# alle PDFs ignorieren ...
+*.pdf
+# ... außer der Reflexion (das "!" nimmt sie wieder aus)
+!reflexion.pdf
+
+# Einstellungen der Editoren (WebStorm, VS Code)
+.idea/
+.vscode/
+
+# Node / Vite
+# installierte Pakete, werden mit "npm install" neu erzeugt
+node_modules/
+# fertiger Build, wird mit "npm run build" neu erzeugt
+dist/
+# lokale Dateien wie .env.local
+*.local
+# Logdateien von npm
+*.log

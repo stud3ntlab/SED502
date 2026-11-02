@@ -1,8 +1,120 @@
-/* Grundlegende Styles. Farben, Fokus und Kontrast kommen in einem späteren Schritt. */
+/* Styles der Seite: Farben, Layout, Fokus und Kontrast. */
+
+/* Farben an einer Stelle als CSS-Variablen.
+   Alle Text-/Hintergrund-Paare haben mindestens 4,5:1 Kontrast (WCAG AA). */
+:root {
+  --text: #1f2328;
+  --text-grau: #57606a;
+  --hintergrund: #ffffff;
+  --flaeche: #f6f8fa;
+  --rand: #d0d7de;
+  --link: #0550ae;
+  --fokus: #0550ae;
+  --erlaubt: #116329;
+  --erlaubt-flaeche: #dafbe1;
+  --gesperrt: #a40e26;
+  --gesperrt-flaeche: #ffebe9;
+
+  color: var(--text);
+  background-color: var(--hintergrund);
+}
 
 body {
   /* Schrift des Betriebssystems, gut lesbar und ohne Download */
   font-family: system-ui, sans-serif;
   /* Etwas mehr Zeilenabstand für bessere Lesbarkeit */
   line-height: 1.5;
+}
+
+/* Inhalt nicht zu breit, damit die Zeilen gut lesbar bleiben */
+header,
+main,
+footer {
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+a {
+  color: var(--link);
+}
+
+/* Sprunglinks nebeneinander statt untereinander */
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+fieldset {
+  margin-bottom: 1rem;
+  border: 1px solid var(--rand);
+  border-radius: 0.5rem;
+}
+
+/* Jedes Radio und jede Checkbox in einer eigenen Zeile */
+fieldset label {
+  display: block;
+  margin: 0.25rem 0;
+}
+
+#eintrag-liste {
+  padding: 0;
+  list-style: none;
+}
+
+/* Stufe und Freigabe unter dem Titel, etwas kleiner und grau */
+#eintrag-liste small {
+  display: block;
+  margin-left: 1.5rem;
+  color: var(--text-grau);
+}
+
+/* Die Farbe ergänzt nur den Text "Erlaubt:" bzw. "Gesperrt:", die Info hängt nicht allein an ihr */
+#entscheidung {
+  padding: 0.5rem 1rem;
+  border-left: 0.4rem solid var(--rand);
+  font-weight: bold;
+}
+
+#entscheidung.erlaubt {
+  color: var(--erlaubt);
+  background-color: var(--erlaubt-flaeche);
+  border-left-color: var(--erlaubt);
+}
+
+#entscheidung.gesperrt {
+  color: var(--gesperrt);
+  background-color: var(--gesperrt-flaeche);
+  border-left-color: var(--gesperrt);
+}
+
+/* Regeln als abgesetzter Kasten, damit sie als Zusatzinfo erkennbar sind */
+aside {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background-color: var(--flaeche);
+  border-radius: 0.5rem;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin: 0 0 0.5rem 1rem;
+}
+
+footer {
+  color: var(--text-grau);
+  font-size: 0.9rem;
+}
+
+/* Sichtbarer Fokus: :focus-visible greift bei Tastaturbedienung, nicht beim Mausklick */
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--fokus);
+  outline-offset: 2px;
 }

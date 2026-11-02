@@ -20,7 +20,7 @@ in eine Cloud gelangen.
 - eine **Stufe**:
 
   | Stufe | Was heißt das? |
-    |---|---|
+  |---|---|
   | öffentlich | darf jeder wissen |
   | intern | Infos über die eigene Umgebung |
   | sensitiv | heikle Details, z. B. Kundendaten, IP-Adressen oder Scan-Ergebnisse |
@@ -94,9 +94,34 @@ Prüfung in einfacher Form.
 
 - HTML, CSS und TypeScript, kein Framework
 - Vite als Build-Tool
-- Semantisches HTML und ARIA, Ziel: Lighthouse Accessibility mindestens 80
+- Semantisches HTML und ARIA, Lighthouse Accessibility: 100 (siehe [lighthouse.png](lighthouse.png))
 
 
 ## Technische Entscheidungen
 
-*Kommt noch.*
+Für eine einzelne Seite wollte ich kein Framework verwenden. Vite und TypeScript reichen völlig aus: Vite
+startet den Entwicklungsserver und baut die Seite, und TypeScript läuft im `strict`-Modus, damit Fehler schon
+beim Build auffallen.
+
+Den Code habe ich auf drei Dateien aufgeteilt. In `daten.ts` stehen die Typen und die Beispieldaten, in
+`pruefung.ts` nur die Prüflogik und in `main.ts` alles, was mit der Anzeige und den Eingaben zu tun hat.
+Die Prüflogik greift nicht auf die Seite zu. Dadurch lässt sie sich getrennt testen und leichter erklären.
+
+Die Einträge stehen bewusst nicht im HTML. `main.ts` baut die Checkboxen aus den Daten in `daten.ts`. So
+gibt es Stufe und Freigabe nur an einer Stelle, und sie können nicht auseinanderlaufen. Für Stufe und Ziel
+verwende ich Union-Typen, damit nur gültige Werte möglich sind. Die Felder eines Eintrags sind `readonly`,
+weil Stufe und Freigabe auch im Code nicht nachträglich geändert werden sollen.
+
+Bei der Prüfung gilt „im Zweifel gesperrt“. Ohne Auswahl ist nichts erlaubt, und als Ziel ist am Anfang
+„extern“ ausgewählt, weil das der strengere Fall ist. Wird kein Ziel erkannt, rechnet die Seite ebenfalls
+mit „extern“.
+
+Statt an jede Checkbox einen eigenen Listener zu hängen, gibt es nur einen `change`-Listener am Formular
+(Event Delegation). Bei jeder Änderung wird alles neu berechnet. Texte setze ich nur mit `textContent` und
+nie mit `innerHTML`, damit nichts als HTML ausgeführt wird. Das passt auch zum Security-Thema der Seite.
+
+Bei der Barrierefreiheit habe ich auf semantisches HTML geachtet: `fieldset` und `legend` für die Gruppen,
+ein `label` um jedes Eingabefeld, `aria-label` an der Navigation, `aria-labelledby` an den Bereichen und
+`aria-live` beim Ergebnis, damit Screenreader Änderungen vorlesen. Die Stufe steht immer als Text da und
+nicht nur als Farbe. Alle Farben haben mindestens 4,5:1 Kontrast, und der Fokus ist bei Tastaturbedienung
+deutlich sichtbar. Lighthouse Accessibility ergibt 100 Punkte ([lighthouse.png](lighthouse.png)).
